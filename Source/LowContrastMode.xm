@@ -118,6 +118,12 @@ UIColor *lcmHexColor;
     return [UIColor whiteColor];
 }
 %end
+%hook ELMTextNode // _ASDisplayView
+- (void)updateAttributedText {
+    %orig();
+    self.textColor = [UIColor whiteColor];
+}
+%end
 %hook QTMColorGroup
 - (UIColor *)tint100 {
     return [UIColor whiteColor];
