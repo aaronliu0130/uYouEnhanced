@@ -516,19 +516,17 @@ static void repositionCreateTab(YTIGuideResponse *response) {
 + (BOOL)hasTrackingParams {
     return NO;
 }
-%new
-- (id)removeParameterFromURL:(id)arg1 {
-    NSURLComponents *components = [NSURLComponents componentsWithURL:arg1 resolvingAgainstBaseURL:NO];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"NOT (name == %@)", @"si"];
-    NSArray<NSURLQueryItem *> *filteredQueryItems = [components.queryItems filteredArrayUsingPredicate:predicate];
-    components.queryItems = filteredQueryItems;
-    
-    NSURL *modifiedURL = components.URL;
-    if (!modifiedURL) {
-        modifiedURL = arg1;
+%end
+
+%hook _UIConcretePasteboard
+- (void)setString:(NSString *)string {
+    if ([string rangeOfString:@"?si="].location != NSNotFound) {
+        NSString *modifiedString = [string componentsSeparatedByString:@"?si="].firstObject;
+        %orig(modifiedString);
+    } else {
+        // If the word "?si=" is not found, proceed with the original setString: method
+        %orig(string);
     }
-    return modifiedURL;
 }
 %end
 
