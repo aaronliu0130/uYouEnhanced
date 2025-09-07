@@ -126,6 +126,7 @@ jobs:
         id: prepare_youtube
         run: |
           mv YouTube.ipa main/YouTube.zip
+          cd main
           unzip -q YouTube.zip
           youtube_version=$(defaults read "$(pwd)/Payload/YouTube.app/Info" CFBundleVersion)
           echo "==> YouTube v$youtube_version downloaded!"
