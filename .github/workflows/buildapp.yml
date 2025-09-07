@@ -64,7 +64,7 @@ jobs:
           URL_YT="$(jq -r '.inputs.decrypted_youtube_url' $GITHUB_EVENT_PATH)"
           echo ::add-mask::$URL_YT
           echo URL_YT=$URL_YT >> $GITHUB_ENV
-          wget "$YOUTUBE_URL" --quiet --no-verbose -O YouTube.ipa
+          wget "$URL_YT" --quiet --no-verbose -O YouTube.ipa
 
       - name: Checkout Main
         uses: actions/checkout@v5
