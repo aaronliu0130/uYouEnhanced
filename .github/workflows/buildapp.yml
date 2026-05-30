@@ -59,6 +59,13 @@ jobs:
       contents: write
 
     steps:
+      - name: Checkout Main
+        uses: actions/checkout@v5
+        with:
+          path: main
+          ref: ${{ github.event.inputs.commit_id || github.ref }}
+          submodules: recursive
+
       - name: Hash, download, and prepare YT IPA
         id: prepare_youtube
         run: |
@@ -76,13 +83,6 @@ jobs:
 
         env:
           THEOS: ${{ github.workspace }}/theos
-
-      - name: Checkout Main
-        uses: actions/checkout@v5
-        with:
-          path: main
-          ref: ${{ github.event.inputs.commit_id || github.ref }}
-          submodules: recursive
 
       - name: Install Dependencies
         run: brew install ldid dpkg make
